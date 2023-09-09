@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+</head>
+<body>
+    <center>
+        <div id="app"></div>
+        <script>
+            let mainApp = document.getElementById('app');
+            let data = {
+                "firstName": '',
+                "lastName": '',
+                "email": '',
+                'password': ''
+            }
+
+            let etcZero = document.createElement('h2');
+            let firstName = document.createElement('span');
+            let lastName = document.createElement('span');
+            let divOne = document.createElement('div');
+            let divTwo = document.createElement('div');
+            let divThree = document.createElement('div');
+            let divFour = document.createElement('div');
+            let divFive = document.createElement('div');
+            let lineBreak = document.createElement('br');
+            let lineBreakOne = document.createElement('br');
+            let lineBreakTwo = document.createElement('br');
+            let lineBreakThree = document.createElement('br');
+
+            let buttonClick = document.createElement('button');
+            buttonClick.innerText = 'Submit';
+
+            buttonClick.addEventListener('click', (event) => {
+                console.log(data)
+                myFunction();
+            });
+
+            function myFunction() {
+                data.firstName = inputFirstName.value;
+                data.lastName = inputLastName.value;
+                data.email = inputEmail.value;
+                data.password = inputPassword.value;
+
+                let dateTime = new Date().toLocaleString();
+                let password = inputPassword.value;
+                let confirmPassword = inputConfirmPassword.value;
+                let errorMessage = '';
+
+                if (password !== confirmPassword) {
+                    errorMessage = "Password doesn't match";
+                }
+
+                alert(`First Name: ${data.firstName}\nLast Name: ${data.lastName}\nEmail: ${data.email}\nDate & Time: ${dateTime}\n${errorMessage}`);
+            }
+
+            firstName.innerText = 'Firstname ';
+            lastName.innerText = 'Lastname ';
+
+            let inputFirstName = document.createElement('input');
+            inputFirstName.setAttribute('type', 'text');
+            inputFirstName.setAttribute('placeholder', 'Type your First name');
+
+            let inputLastName = document.createElement('input');
+            inputLastName.setAttribute('placeholder', 'Type your Last name');
+
+            let inputEmail = document.createElement('input');
+            let emailWarning = document.createElement('p');
+            inputEmail.setAttribute('placeholder', 'Type your Email');
+
+            let inputPassword = document.createElement('input');
+            inputPassword.setAttribute('type', 'password');
+            inputPassword.setAttribute('placeholder', 'Type your password');
+
+            let inputConfirmPassword = document.createElement('input');
+            inputConfirmPassword.setAttribute('type', 'password');
+            inputConfirmPassword.setAttribute('placeholder', 'Confirm your password');
+
+            inputEmail.addEventListener('input', (event) => {
+                let email = event.target.value;
+                if (email === '') {
+                    emailWarning.innerText = '';
+                } else if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+                    emailWarning.innerText = ' ';
+                } else {
+                    emailWarning.innerText = 'Wrong Email';
+                    emailWarning.style.color = 'red';
+                }
+            });
+
+            let passwordMissMatch = createErrorMessage(' ');
+
+            let passwordStrengthWarning = document.createElement('h5');
+            passwordStrengthWarning.className = 'password-strength';
+            passwordStrengthWarning.innerText = ' ';
+
+            inputPassword.addEventListener('input', function (event) {
+                let password = event.target.value;
+                data.password = event.target.value;
+                let isStrong = checkPasswordStrength(password);
+                if (password === '') {
+                    passwordStrengthWarning.innerText = '';
+                } else if (isStrong ) {
+                    passwordStrengthWarning.innerText = 'Password strong';
+                    passwordStrengthWarning.style.color = '';
+                } else {
+                    passwordStrengthWarning.innerText = 'Warning, password is weak';
+                    passwordStrengthWarning.style.color = 'red';
+                }
+            });
+
+            function checkPasswordStrength(password) {
+                var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+                return re.test(password);
+            }
+
+            inputConfirmPassword.addEventListener('input', checkPasswordMatch);
+
+            function checkPasswordMatch() {
+                let password = inputPassword.value;
+                let confirmPassword = inputConfirmPassword.value;
+
+                if (password === confirmPassword) {
+                    passwordMissMatch.innerText = '';
+                } else {
+                    passwordMissMatch.innerText = 'Password does not match';
+                }
+            }
+
+            function createErrorMessage(message) {
+                let errorMessage = document.createElement('p');
+                errorMessage.className = 'error-message';
+                errorMessage.innerText = message;
+                return errorMessage;
+            }
+
+            inputFirstName.addEventListener('input', function (event) {
+                if (event.target.value === '') {
+                    firstName.innerText = 'Firstname';
+                } else {
+                    firstName.innerText = event.target.value + " ";
+                }
+            });
+
+            inputLastName.addEventListener('input', function (event) {
+                if (event.target.value === '') {
+                    lastName.innerText = 'Lastname ';
+                } else {
+                    lastName.innerText = event.target.value + " ";
+                }
+            });
+
+            etcZero.append(firstName);
+            etcZero.append(lastName);
+            mainApp.append(etcZero);
+            mainApp.append(divOne);
+            mainApp.append(lineBreak);
+            mainApp.append(divTwo);
+            mainApp.append(lineBreakOne);
+            mainApp.append(divThree);
+            mainApp.append(lineBreakTwo);
+            mainApp.append(divFour);
+            mainApp.append(lineBreakThree);
+            mainApp.append(divFive);
+            divOne.append(inputFirstName);
+            divTwo.append(inputLastName);
+            divThree.append(inputEmail);
+            divThree.append(emailWarning);
+            divFour.append(passwordStrengthWarning);
+            divFour.append(inputPassword);
+            divFive.append(inputConfirmPassword);
+            mainApp.append(passwordMissMatch);
+            mainApp.append(buttonClick);
+        </script>
+    </center>
+    <style>
+        body {
+            margin: 300px;
+            background-image: url(image/img.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        h2 {
+            margin-top: 25px;
+            line-height: 2px;
+            color: whitesmoke;
+        }
+        input {
+            margin-top: 10px;
+        }
+        .password-strength {
+            color: red;
+        }
+        .error-message {
+            color: red;
+            margin-top: 5px;
+            text-align: justify;
+            margin-left: 87px;
+        }
+        h5 {
+            margin-left: 87px;
+            margin-bottom: -5px;
+            text-align: justify;
+        }
+</style>
+    
+</body>
+</html>
